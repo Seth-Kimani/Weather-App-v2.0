@@ -7,13 +7,14 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container">
         <div class="weather-side">
             <div class="weather-gradient"></div>
             <div class="date-container">
-                <h2 class="date-dayname">Tuesday</h2>
+                <h2 class="date-dayname" id="dayy">Tuesday</h2>
                 <span class="date-day" id="date">09 Feb 2024</span>
                 <i class="location-icon" data-feather="map-pin"></i>
                 <span class="location" id="loc">Nairobi</span>
@@ -66,12 +67,16 @@
                     <div class="clear"></div>
                 </ul>
             </div>
-            <div class="location-container">
+            <div class="search-container search-bar" style="">
+                <input type="text" placeholder="Search Location ... " id="search">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>		
+            </div>
+            <!--< div class="location-container">
                 <button class="location-button">
                     <i data-feather="map-pin"></i>
                     <span>Change Location</span>
                 </button>
-            </div>
+            </div> -->
         </div>
     </div>
     <script src="index.js"></script>

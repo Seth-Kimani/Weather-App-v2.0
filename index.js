@@ -3,11 +3,35 @@ const APIKEY = "b849720518764a31851110246240902"
 const temp = document.getElementById("temp");
 const loc = document.getElementById("loc");
 const date = document.getElementById("date");
+const dayy = document.getElementById("dayy");
 const cond = document.getElementById("cond");
 
 const humid = document.getElementById("humid");
 const wind = document.getElementById('wind-speed');
 const weatherCont = document.getElementById('weatherCont');
+
+const wIcon = document.createElement('img');
+
+const search = document.getElementById('search');
+const searchIcon = document.querySelector('.search-icon');
+
+searchIcon.addEventListener("click", () => {
+    const query = search.value;
+    if (query == '') return
+
+    weatherSearch(query);
+    search.value = ""
+
+});
+
+search.addEventListener("keydown", (e) => {
+    const query = search.value;
+    if (e.key === 'Enter') {
+        if (query == '') return
+        weatherSearch(query);
+        search.value = ""
+    }
+});
 
 let weather_cond = [
     {
@@ -300,31 +324,47 @@ let weather_cond = [
     }
 ]
 
+let locale = "";
+
+async function getLoc() {
+    const locationn = await fetch("https://api.geoapify.com/v1/ipinfo?&apiKey=38adebdc550a4a509924593b5d94d8aa");
+    result2 = await locationn.json();
+    // locale = result2.city.name;
+    c
+    return result2.city.name;
+}
+
+
+
 async function weatherSearch(query = "Nairobi") {
     try {
-        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=63c24c6f33f742c3880114012232208&q=${query}&days=2`, { mode: 'cors' });
+        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=63c24c6f33f742c3880114012232208&q=${query}&days=14`, { mode: 'cors' });
         result = await response.json();
         //console.log(result.forecast.forecastday[0].day.condition.icon);
-
+        
         temp.innerText = result.current.temp_c + " °C";
         cond.innerText = result.current.condition.text;
         loc.innerText = result.location.region;
-        date.innerText = new Date().toDateString();
+        date.innerText = new Date().toDateString().slice(-11);
         humid.innerText = result.current.humidity + " %";;
         wind.innerText = result.current.wind_kph + " km/h";
         let weatherIconText = result.forecast.forecastday[0].day.condition.icon.slice(21);
         // let weatherIconCodet = result.forecast.forecastday[0].day.condition.icon.slice(39, 42);
-        let weatherIconCodet = result.forecast.forecastday[0].day.condition.icon.slice(39,42);
+        let weatherIconCodet = result.forecast.forecastday[0].day.condition.icon.slice(39, 42);
         let is_day = result.current.is_day
 
-        console.log(weatherIconText);
-        console.log(result);
-        const wIcon = document.createElement('img');
-        wIcon.src =  weatherIconText;
-        weatherCont.appendChild(wIcon);
-        console.log(wIcon.src);
+        //console.log(weatherIconText);
+        //console.log(result);
 
-        
+        wIcon.src = weatherIconText;
+        weatherCont.appendChild(wIcon);
+        //console.log(wIcon.src);
+
+        const d = new Date();
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        dayy.innerText = days[d.getDay()];
+        //console.log(days[d.getDay()]);
+
 
 
         /* const wIcon = document.createElement('img');
@@ -336,6 +376,7 @@ async function weatherSearch(query = "Nairobi") {
     }
 }
 window.addEventListener("DOMContentLoaded", () => {
-    weatherSearch('Qatar');
+    
+    weatherSearch("Nairobi");
     //loc.innerText = "Addis Ababa, Kenya";
 });
